@@ -7,7 +7,9 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(cors());
 var accountRoutes = require('./account/buyerAccountRoute'); //importing route
+var contentRoutes = require('./content/contentRoute'); //importing route
 accountRoutes(app);
+contentRoutes(app);
 app.listen(port);
 
 
