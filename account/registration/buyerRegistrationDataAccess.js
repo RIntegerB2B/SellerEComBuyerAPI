@@ -24,8 +24,8 @@ exports.createBuyer = function(req, res) {
       var mailOptions = {
         from: 'princepreveen@outlook.com',
         to: req.body.emailId,
-        subject: 'Sending Email using Node.js',
-        text: 'That was easy!'
+        subject: 'Seller ECom',
+        text: 'Your request will be approved soon!!'
       };
       
       transporter.sendMail(mailOptions, function(error, info){
