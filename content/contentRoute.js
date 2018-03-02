@@ -6,4 +6,6 @@ module.exports = function(app) {
     .get(contentDetailMgr.getContentDetail);
     app.route('/contents')
     .get(contentViewMgr.getContents);
+    app.route('/contentData')
+    .get(contentViewMgr.getAllContents);
 }

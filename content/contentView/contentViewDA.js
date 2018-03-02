@@ -16,6 +16,17 @@ exports.getContents = function(req, res) {
       }
     });
   
-  };;
+  };
+
+  exports.getAllContents = function(req, res) {
+    Content.find({},'contentDetailId contentData',function(err, contentData){
+      if(err) {
+          res.status(500).send({message: "Some error occurred while retrieving notes."});
+      } else {
+          res.send(contentData);
+      }
+    });
+  
+  };
 
 
