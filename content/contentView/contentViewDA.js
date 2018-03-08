@@ -18,15 +18,64 @@ exports.getContents = function(req, res) {
   
   };
 
-  exports.getAllContents = function(req, res) {
-    Content.find({},'contentDetailId contentData',function(err, contentData){
+  exports.getAllContentId = function(req, res) {
+    Content.find({},'_id',function(err, contentIds){
       if(err) {
           res.status(500).send({message: "Some error occurred while retrieving notes."});
       } else {
-          res.send(contentData);
+        res.send(contentIds);
       }
     });
   
   };
 
+  exports.getMainContentImage = function(req, res) {
+          Content.find({'_id':req.params.Id},'mainContentImage', function(err, contentImages){
+            if(err) {
+              res.status(500).send({message: "Some error occurred while retrieving notes."});
+          } else {
+            
+              res.send(JSON.stringify(contentImages[0]));
+             
+            
+          }
+          });
+          
+  
+  };
+
+  exports.getAllSubContentId = function(req, res) {
+    Content.find({'_id':req.params.Id},'subContentDetail._id',function(err, contentIds){
+      if(err) {
+          res.status(500).send({message: "Some error occurred while retrieving notes."});
+      } else {
+        console.log(contentIds[0].subContentDetail);
+        if(contentIds && contentIds.length >0 )
+          res.send(contentIds[0].subContentDetail);
+        else
+        res.send(contentIds);
+      }
+    });
+  
+  };
+
+  exports.getSubContentImage = function(req, res) {
+    console.log(req.params.subContentId);
+    Content.find({_id:req.params.mainContentId, 'subContentDetail.0' :  {$exists: true} },'subContentDetail._id subContentDetail.subContentDetailImage', function(err, contentImage){
+      if(err) {
+        res.status(500).send({message: "Some error occurred while retrieving notes."});
+      } else {
+        if(contentImage && contentImage.length > 0 && contentImage[0].subContentDetail && contentImage[0].subContentDetail.length > 0){
+          var subContentData = contentImage[0].subContentDetail.filter(function (detail) {
+            return detail._id == req.params.subContentId;
+          });
+          res.send(JSON.stringify(subContentData[0]));
+        }
+        else{
+          res.send(JSON.stringify(contentImage));
+        }
+        
+      }
+    });
+  };
 
